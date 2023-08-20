@@ -1,0 +1,7 @@
+Faker==18.11.1
+faker-commerce==1.0.3
+
+# Append here
+Flask
+Flask-GraphQL
+graphene
