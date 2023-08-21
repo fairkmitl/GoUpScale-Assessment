@@ -5,15 +5,17 @@ from models.data_utils import USERS, User
 
 class CreateUser(graphene.Mutation):
     class Arguments:
-        name = graphene.String(required=True)
-        email = graphene.String(required=True)
-        age = graphene.Int(required=True)
+        userId = graphene.Int(required=True)
+        # Add other fields for User here e.g., name = graphene.String(required=True)
 
-    user = graphene.Field(lambda: UserType)
+    user = graphene.Field(UserType)
 
-    def mutate(self, info, name, email, age):
-        user = User(user_id=str(len(USERS) + 1), name=name, email=email, age=age)
-        USERS.append(user)
+    def mutate(self, info, userId, **kwargs):
+        # Add validation logic if needed
+
+        user = User(userId=userId, **kwargs)  # Create the user instance
+        USERS.append(user)  # Add the user to our in-memory database
+
         return CreateUser(user=user)
 
 

@@ -1,17 +1,21 @@
 from flask import Flask, request, jsonify
 import graphene
+from flask_cors import CORS
+from graphql_service.schema import schema
 
 app = Flask(__name__)
+CORS(app)
 
 
-class Query(graphene.ObjectType):
-    hello = graphene.String(description="A typical hello world")
+# class Query(graphene.ObjectType):
+#     hello = graphene.String(description="A typical hello world")
 
-    def resolve_hello(self, info):
-        return "Hello, world!"
+#     def resolve_hello(self, info):
+#         return "Hello, world!"
 
 
-schema = graphene.Schema(query=Query)
+# schema = graphene.Schema(query=Query)
+
 
 # test path
 @app.route("/graphql", methods=["GET", "POST"])

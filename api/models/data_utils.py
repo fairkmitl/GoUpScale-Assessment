@@ -1,38 +1,45 @@
 import json
+import os
+import csv
+import xml.etree.ElementTree as ET
 from .data_models import User, Item, Order
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 
 def load_users():
-    with open("../data/users.json", "r") as file:
-        users_data = json.load(file)
-    return [User(**user) for user in users_data]
+    USERS_PATH = os.path.join(BASE_DIR, "../../data/users.json")
 
-
-import csv
+    with open(USERS_PATH, "r") as file:
+        users_data = json.load(file).values()
+        return [User(**user) for user in users_data]
 
 
 def load_items():
+    ITEMS_PATH = os.path.join(BASE_DIR, "../../data/items.csv")
+
     items = []
-    with open("../data/items.csv", "r") as file:
+    with open(ITEMS_PATH, "r") as file:
         reader = csv.DictReader(file)
         for row in reader:
             items.append(Item(**row))
     return items
 
 
-import xml.etree.ElementTree as ET
-
-
 def load_orders():
-    tree = ET.parse("../data/orders.xml")
+    ORDERS_PATH = os.path.join(BASE_DIR, "../../data/orders.xml")
+
+    tree = ET.parse(ORDERS_PATH)
     root = tree.getroot()
 
     orders = []
-    for order in root:
+    for order in root.findall("./orders/order"):  # Only select <order> elements
         order_data = {
-            "order_id": order.find("order_id").text,
-            "user_id": order.find("user_id").text,
-            "item_ids": [item.text for item in order.findall("item_ids/item")],
+            "order_id": order.get("id"),
+            "user_id": order.find("user_id").text.strip(),
+            "item_ids": [
+                item.text.strip() for item in order.findall("./items/item/id")
+            ],
         }
         orders.append(Order(**order_data))
     return orders

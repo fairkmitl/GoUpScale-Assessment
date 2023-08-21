@@ -1,25 +1,22 @@
-# data_models.py
-
-
 class User:
-    def __init__(self, user_id, name, email):
-        self.user_id = user_id
-        self.name = name
+    def __init__(self, id, first_name, last_name, email, password):
+        self.id = id
+        self.first_name = first_name
+        self.last_name = last_name
         self.email = email
-        # Add other fields if needed
+        self.password = password
 
 
 class Item:
-    def __init__(self, item_id, name, price):
-        self.item_id = item_id
+    def __init__(self, id, name, image_url, created_at):
+        self.id = id
         self.name = name
-        self.price = price
-        # Add other fields if needed
+        self.image_url = image_url
+        self.created_at = created_at
 
 
 class Order:
     def __init__(self, order_id, user_id, item_ids):
         self.order_id = order_id
         self.user_id = user_id
-        self.item_ids = item_ids  # This can be a list of item_ids
-        # Add other fields if needed
+        self.item_ids = item_ids

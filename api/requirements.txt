@@ -4,3 +4,4 @@ faker-commerce==1.0.3
 # Append here
 Flask==2.3.2
 graphene==3.3
+Flask-CORS==3.0.10
