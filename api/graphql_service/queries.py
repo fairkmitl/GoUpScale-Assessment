@@ -12,10 +12,9 @@ class Query(graphene.ObjectType):
     def resolve_users(self, info):
         return USERS
 
-    def resolve_user(self, info, userId):
-        for user in USERS:
-            if user.userId == userId:
-                return user
+    @staticmethod
+    def resolve_user(parent, info, id):
+        return next((user for user in USERS if user.id == id), None)
 
     def resolve_user_orders(self, info, userId):
         return [order for order in ORDERS if order.userId == userId]
