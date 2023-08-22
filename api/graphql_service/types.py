@@ -14,17 +14,25 @@ class UserType(graphene.ObjectType):
     first_name = graphene.String(name="first_name")
     last_name = graphene.String(name="last_name")
     email = graphene.String()
-    orderedItems = graphene.List(ItemType)
+    orderedItems = graphene.List(
+        ItemType,
+        sortBy=graphene.String(default_value="id"),
+        order=graphene.String(default_value="ASC"),
+    )
 
-    def resolve_orderedItems(self, info):
+    def resolve_orderedItems(self, info, sortBy="id", order="ASC"):
         print("self.id: ", self.id)
         item_ids = []
         for order in ORDERS:
             if order["user_id"] == self.id:
                 item_ids.extend(order["item_ids"])
 
-        # This assumes that the items in ITEMS are dictionaries with key 'id'
-        return [item for item in ITEMS if item.id in item_ids]
+        # Get the items ordered by the user
+        user_items = [item for item in ITEMS if item.id in item_ids]
+
+        # Sort the items
+        reverse = order == "DESC"
+        return sorted(user_items, key=lambda x: getattr(x, sortBy), reverse=reverse)
 
 
 class OrderType(graphene.ObjectType):
