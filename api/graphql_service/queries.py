@@ -25,12 +25,3 @@ class Query(graphene.ObjectType):
         filtered_orders = [order for order in ORDERS if order["user_id"] == user_id]
         # print(f"Filtered orders for user {user_id}: {filtered_orders}")
         return filtered_orders
-
-    def resolve_user_items(self, info, userId):
-        item_ids = []
-        for order in ORDERS:
-            if order["user_id"] == userId:
-                item_ids.extend(order["item_ids"])
-
-        # This assumes that the items in ITEMS are dictionaries with key 'id'
-        return [item for item in ITEMS if item["id"] in item_ids]
