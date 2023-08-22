@@ -22,20 +22,19 @@ class UserType(graphene.ObjectType):
         offset=graphene.Int(default_value=0),
     )
 
+    ## user's ordered items resolver 
     def resolve_orderedItems(self, info, sortBy="id", order="ASC", limit=10, offset=0):
         item_ids = []
         for order in ORDERS:
             if order["user_id"] == self.id:
                 item_ids.extend(order["item_ids"])
 
-        # Filter and sort items by given criteria
         filtered_items = [item for item in ITEMS if item.id in item_ids]
         reverse = order == "DESC"
         sorted_items = sorted(
             filtered_items, key=lambda x: getattr(x, sortBy), reverse=reverse
         )
 
-        # Apply pagination using slice
         return sorted_items[offset : offset + limit]
 
 

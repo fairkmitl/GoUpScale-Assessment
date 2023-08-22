@@ -15,7 +15,7 @@ def load_json_data(filename):
         return json.load(jsonfile)
 
 
-# Loading XML Data (assuming a structure of <orders><order>...</order></orders>)
+# Loading XML Data
 def load_xml_data(filename):
     tree = ET.parse(filename)
     root = tree.getroot()

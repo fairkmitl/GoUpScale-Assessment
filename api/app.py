@@ -3,21 +3,14 @@ import graphene
 from flask_cors import CORS
 from graphql_service.schema import schema
 
+# Initialize Flask app
 app = Flask(__name__)
+
+# Enable CORS for the app
 CORS(app)
 
 
-# class Query(graphene.ObjectType):
-#     hello = graphene.String(description="A typical hello world")
-
-#     def resolve_hello(self, info):
-#         return "Hello, world!"
-
-
-# schema = graphene.Schema(query=Query)
-
-
-# test path
+# Define the /graphql endpoint for testing
 @app.route("/graphql", methods=["GET", "POST"])
 def graphql_server():
     if request.method == "POST":

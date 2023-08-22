@@ -4,6 +4,7 @@ from models.data_utils import USERS, ITEMS, ORDERS
 
 
 class Query(graphene.ObjectType):
+    # Define fields and their types for the GraphQL schema
     users = graphene.List(
         UserType,
         sortBy=graphene.String(),
@@ -22,6 +23,7 @@ class Query(graphene.ObjectType):
     )
     user_items = graphene.List(ItemType, user_id=graphene.String(required=True))
 
+    # user list resolver
     def resolve_users(self, info, sortBy=None, order="ASC", limit=10, offset=0):
         sorted_users = USERS
 
@@ -33,10 +35,12 @@ class Query(graphene.ObjectType):
 
         return sorted_users[offset : offset + limit]
 
+    ## user's detail resolver
     @staticmethod
     def resolve_user(parent, info, id):
         return next((user for user in USERS if user.id == id), None)
 
+    ## order's item resolver
     def resolve_user_orders(
         self, info, user_id, sortBy="order_id", order="ASC", limit=10, offset=0
     ):
@@ -47,5 +51,4 @@ class Query(graphene.ObjectType):
             filtered_orders, key=lambda x: x[sortBy], reverse=reverse
         )
 
-        # Apply pagination using slice
         return sorted_orders[offset : offset + limit]

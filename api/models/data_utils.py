@@ -7,6 +7,7 @@ from .data_models import User, Item, Order
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 
+# Load user data from the users.json file.
 def get_element_text(element, tag_name):
     child_element = element.find(tag_name)
     return child_element.text.strip() if child_element is not None else None
@@ -20,6 +21,7 @@ def load_users():
         return [User(**user) for user in users_data]
 
 
+# Load item data from the items.csv file.
 def load_items():
     ITEMS_PATH = os.path.join(BASE_DIR, "../../data/items.csv")
 
@@ -31,6 +33,7 @@ def load_items():
     return items
 
 
+# Load order data from the orders.xml file.
 def load_orders():
     ORDERS_PATH = os.path.join(BASE_DIR, "../../data/orders.xml")
     tree = ET.parse(ORDERS_PATH)
