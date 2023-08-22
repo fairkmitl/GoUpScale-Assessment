@@ -12,13 +12,13 @@ class ItemType(graphene.ObjectType):
     id = graphene.String()
     name = graphene.String()
     image_url = graphene.String()
-    created_at = graphene.String()  # This can be changed to DateTime if needed.
+    created_at = graphene.String()
 
 
 class OrderType(graphene.ObjectType):
     order_id = graphene.String()
     user_id = graphene.String()
-    item_ids = graphene.List(graphene.String)  # List of item IDs
+    item_ids = graphene.List(graphene.String)
 
 
 class UserInputType(graphene.InputObjectType):

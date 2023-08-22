@@ -28,20 +28,28 @@ def load_items():
 
 def load_orders():
     ORDERS_PATH = os.path.join(BASE_DIR, "../../data/orders.xml")
-
     tree = ET.parse(ORDERS_PATH)
     root = tree.getroot()
 
     orders = []
-    for order in root.findall("./orders/order"):  # Only select <order> elements
+    for orders_element in root.findall("orders"):
+        order_element = orders_element.find("order")
+        items_element = orders_element.find("items")
+
         order_data = {
-            "order_id": order.get("id"),
-            "user_id": order.find("user_id").text.strip(),
-            "item_ids": [
-                item.text.strip() for item in order.findall("./items/item/id")
-            ],
+            "order_id": order_element.get("id"),
+            "user_id": order_element.find("user_id").text.strip(),
+            "item_ids": [],
         }
-        orders.append(Order(**order_data))
+
+        if items_element is not None:
+            order_data["item_ids"] = [
+                item.find("id").text.strip() for item in items_element.findall("item")
+            ]
+
+        orders.append(order_data)
+        print('orders: ', orders)
+
     return orders
 
 

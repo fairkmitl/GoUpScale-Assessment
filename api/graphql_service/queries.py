@@ -5,9 +5,11 @@ from models.data_utils import USERS, ITEMS, ORDERS
 
 class Query(graphene.ObjectType):
     users = graphene.List(UserType)
-    user = graphene.Field(UserType, userId=graphene.Int(required=True))
-    user_orders = graphene.List(OrderType, userId=graphene.Int(required=True))
-    user_items = graphene.List(ItemType, userId=graphene.Int(required=True))
+    user = graphene.Field(UserType, id=graphene.String(required=True))
+    user_orders = graphene.List(OrderType, user_id=graphene.String())
+    user_items = graphene.List(
+        ItemType, user_id=graphene.String(required=True)
+    )  # consistent with user_id
 
     def resolve_users(self, info):
         return USERS
@@ -16,12 +18,19 @@ class Query(graphene.ObjectType):
     def resolve_user(parent, info, id):
         return next((user for user in USERS if user.id == id), None)
 
-    def resolve_user_orders(self, info, userId):
-        return [order for order in ORDERS if order.userId == userId]
+    # @staticmethod
+    def resolve_user_orders(parent, info, user_id):
+        # print("user_id : ", user_id)
+        # print("All ORDERS:", ORDERS)
+        filtered_orders = [order for order in ORDERS if order["user_id"] == user_id]
+        # print(f"Filtered orders for user {user_id}: {filtered_orders}")
+        return filtered_orders
 
     def resolve_user_items(self, info, userId):
         item_ids = []
         for order in ORDERS:
-            if order.userId == userId:
-                item_ids.extend(order.itemIds)
-        return [item for item in ITEMS if item.itemId in item_ids]
+            if order["user_id"] == userId:
+                item_ids.extend(order["item_ids"])
+
+        # This assumes that the items in ITEMS are dictionaries with key 'id'
+        return [item for item in ITEMS if item["id"] in item_ids]
