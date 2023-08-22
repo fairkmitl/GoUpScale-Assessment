@@ -7,6 +7,11 @@ from .data_models import User, Item, Order
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 
+def get_element_text(element, tag_name):
+    child_element = element.find(tag_name)
+    return child_element.text.strip() if child_element is not None else None
+
+
 def load_users():
     USERS_PATH = os.path.join(BASE_DIR, "../../data/users.json")
 
@@ -32,23 +37,34 @@ def load_orders():
     root = tree.getroot()
 
     orders = []
-    for orders_element in root.findall("orders"):
-        order_element = orders_element.find("order")
-        items_element = orders_element.find("items")
 
-        order_data = {
-            "order_id": order_element.get("id"),
-            "user_id": order_element.find("user_id").text.strip(),
-            "item_ids": [],
-        }
+    # Use a manual index for looping since we want to access subsequent nodes.
+    children = list(
+        root.findall("orders/*")
+    )  # This gets all child nodes (both order and items)
+    index = 0
+    while index < len(children):
+        child = children[index]
+        if child.tag == "order":
+            order_data = {
+                "order_id": child.get("id"),
+                "user_id": get_element_text(child, "user_id"),
+                "item_ids": [],
+            }
 
-        if items_element is not None:
-            order_data["item_ids"] = [
-                item.find("id").text.strip() for item in items_element.findall("item")
-            ]
+            # Check if the next node is 'items' for this order
+            if index + 1 < len(children) and children[index + 1].tag == "items":
+                items_element = children[index + 1]
+                order_data["item_ids"] = [
+                    item.find("id").text.strip()
+                    for item in items_element.findall("item")
+                ]
 
-        orders.append(order_data)
-        print('orders: ', orders)
+                # Increment the index to skip the 'items' node next time
+                index += 1
+
+            orders.append(order_data)
+        index += 1
 
     return orders
 
