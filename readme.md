@@ -19,11 +19,12 @@ The primary goal of this assessment is to create a backend API serving data extr
    - Graphene
 
 2. **Installation**:
+   - cd api
    - pip install -r requirements.txt
 
 3. **Running the Application**:
 
-    - cd api
+    - make sure you are in /api path
     - python app.py
 
 4. **Testing API**:
