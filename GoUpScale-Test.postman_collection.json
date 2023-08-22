@@ -1,0 +1,126 @@
+{
+	"info": {
+		"_postman_id": "f317f945-7a43-4343-8693-c26db0ff7663",
+		"name": "GoUpScale-Test",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "4418883"
+	},
+	"item": [
+		{
+			"name": "users-list",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "{\n    users(sortBy: \"email\", order: \"DESC\", limit: 5, offset: 0) {\n        id\n        first_name\n        last_name\n        email\n    }\n}\n",
+						"variables": ""
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/graphql",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"graphql"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "user's details",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "{\n  user(id: \"e0b09b3f-bd55-4769-83e7-6fa09096d804\") {\n    id\n    first_name\n    last_name\n    email\n  }\n}\n",
+						"variables": ""
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/graphql",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"graphql"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "user's orders",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "{\n  userOrders(userId: \"75397119-64e3-4332-b30d-30ef568e5b06\", sortBy: \"order_id\", order: \"DESC\", limit: 2, offset: 0) {\n    orderId\n    userId\n    itemIds\n  }\n}\n",
+						"variables": ""
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/graphql",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"graphql"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "list of items (each user)",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "{\n  user(id: \"75397119-64e3-4332-b30d-30ef568e5b06\") {\n    id\n    first_name\n    last_name\n    orderedItems(sortBy: \"name\", order: \"DESC\", limit: 4, offset: 0) {\n      id\n      name\n    }\n  }\n}\n",
+						"variables": ""
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/graphql",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"graphql"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

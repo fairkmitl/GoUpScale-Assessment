@@ -1,21 +1,30 @@
-### Take home assignment challenge: 
-The take home consists of implementing a back_end API serving the data from items.csv, orders.xml and users.json  
+### Take home assignment challenge
 
-The API should be implemented in Python using Flask, GraphQL (graphene library https://graphene-python.org/) and should expose the following on its query:
-- A list of users
-- A user's details: providing the user-id
-- A list of a user's orders: providing the user-id
-- A list of items that a user have ordered: providing the user-id
+The primary goal of this assessment is to create a backend API serving data extracted from various data files: `items.csv`, `orders.xml`, and `users.json`. This is implemented using Python, Flask, and GraphQL (with the graphene library).
 
-The following mutation should be included:
-- User creation: validates input data and creates a user
+## API Features:
 
-# Tip: 
-- A good separation of concern between API layer and data-fetching layer allows for reusability and a more flexible codebase  
-- The data can be re-arranged stored in a different way for optimization purposes when the application starts  
+- Fetch a list of users
+- Get detailed information about a specific user
+- Retrieve a list of orders for a specific user
+- Display items ordered by a user
+- Sorting and ordering on list APIs (list of users, orders and items)
+- Pagination on list APIs (list of users, orders and items)
+## Setup:
 
-# Bonus:
-- Implement sorting and ordering on list APIs (list of users, orders and items)
-- Implement pagination on list APIs (list of users, orders and items)
-- Implement mutations to add items and orders
-- Unit testing
+1. **Prerequisites**: 
+   - Python 3.x
+   - Flask
+   - GraphQL
+   - Graphene
+
+2. **Installation**:
+   - pip install -r requirements.txt
+
+3. **Running the Application**:
+
+    - cd api
+    - python app.py
+
+4. **Testing API**:
+    - Test with provided postman collection
